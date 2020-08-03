@@ -11,12 +11,15 @@ class CounterGroup extends Component{
         };
     }
 
-    //使用handle表示处理什么事情
     handleResize= (event)=>{
-        this.setState({
+        if(parseInt(event.target.value)!==this.state.size){
+            console.log(event.target.value+"  "+this.state.size)
+            this.setState({
             size:event.target.value ? parseInt(event.target.value) :0,
             totalValue:0
         })
+        }
+        
     }
 
     handleOnIncrease= ()=>{
@@ -33,13 +36,16 @@ class CounterGroup extends Component{
             <div>
                 <label>
                     Group Size:
-                    <input defaultValue={0} onChange={this.handleResize}/>
+                    <input defaultValue={0} onBlur={this.handleResize}/>
                 </label>
                 <label>
                     Total Value:<span>{this.state.totalValue}</span>
                 </label>
                 {
-                    initArray.map(key=><Counter totalSize={this.state.size} onIncrease={this.handleOnIncrease} onDecrease={this.handleOnDecrease} key={key} />)
+                    initArray.map(key=><Counter 
+                        totalSize={this.state.size} 
+                        onIncrease={this.handleOnIncrease} 
+                        onDecrease={this.handleOnDecrease} key={key} />)
                 }
             </div>
         )
