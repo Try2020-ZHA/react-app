@@ -1,5 +1,5 @@
 import React from 'react';
-import Counter from '../Counter';
+import Counter from '../counter';
 import { Component } from 'react';
 import { createStore } from 'redux'
 import myCounter from '../../reducer'
@@ -8,6 +8,8 @@ const store = createStore(myCounter)
 class CounterGroup extends Component{
     constructor(props){
         super(props);
+        this.states = store.getState();
+        store.subscribe(this.render.bind(this));
         this.state={
             size:0,
             totalValue:0
@@ -48,15 +50,12 @@ class CounterGroup extends Component{
                         onIncrement={() => store.dispatch({ type: 'INCREMENT' })}
                         onDecrement={() => store.dispatch({ type: 'DECREMENT' })}
                         key={key}
-                        // totalSize={this.state.size} 
-                        // onIncrease={this.handleOnIncrease} 
-                        // onDecrease={this.handleOnDecrease} key={key} 
-                        />)
+                        />
+                        )
                 }
             </div>
         )
     }
 }
 
-store.subscribe(CounterGroup)
 export default CounterGroup;
