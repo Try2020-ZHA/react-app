@@ -1,7 +1,10 @@
 import React from 'react';
 import Counter from '../Counter';
 import { Component } from 'react';
+import { createStore } from 'redux'
+import myCounter from '../../reducer'
 
+const store = createStore(myCounter)
 class CounterGroup extends Component{
     constructor(props){
         super(props);
@@ -13,13 +16,11 @@ class CounterGroup extends Component{
 
     handleResize= (event)=>{
         if(parseInt(event.target.value)!==this.state.size){
-            console.log(event.target.value+"  "+this.state.size)
             this.setState({
-            size:event.target.value ? parseInt(event.target.value) :0,
-            totalValue:0
-        })
+                size:event.target.value ? parseInt(event.target.value) :0,
+                totalValue:0
+            })
         }
-        
     }
 
     handleOnIncrease= ()=>{
@@ -43,13 +44,19 @@ class CounterGroup extends Component{
                 </label>
                 {
                     initArray.map(key=><Counter 
-                        totalSize={this.state.size} 
-                        onIncrease={this.handleOnIncrease} 
-                        onDecrease={this.handleOnDecrease} key={key} />)
+                        value={store.getState()}
+                        onIncrement={() => store.dispatch({ type: 'INCREMENT' })}
+                        onDecrement={() => store.dispatch({ type: 'DECREMENT' })}
+                        key={key}
+                        // totalSize={this.state.size} 
+                        // onIncrease={this.handleOnIncrease} 
+                        // onDecrease={this.handleOnDecrease} key={key} 
+                        />)
                 }
             </div>
         )
     }
 }
 
+store.subscribe(CounterGroup)
 export default CounterGroup;

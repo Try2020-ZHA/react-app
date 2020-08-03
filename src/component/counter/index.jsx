@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types'
 
 class Counter extends React.Component {
     constructor(props) {
@@ -6,33 +7,40 @@ class Counter extends React.Component {
         this.state = { value: 0, propsSize: 0 };
     }
 
-    onIncrease = () => {
-        this.setState((prevState) => ({ value: prevState.value + 1 }));
-        this.props.onIncrease();
-    }
+    //  onIncrease = () => {
+    //     this.setState((prevState) => ({ value: prevState.value + 1 }));
+    //     this.props.onIncrease();
+    // }
 
-    onDecrease = () => {
-        this.setState((prevState) => ({ value: prevState.value - 1 }));
-        this.props.onDecrease();
-    }
+    // onDecrease = () => {
+    //     this.setState((prevState) => ({ value: prevState.value - 1 }));
+    //     this.props.onDecrease();
+    // }
 
     render() {
+        const { value, onIncrement, onDecrement } = this.props
         return (
             <p>
-                <button onClick={this.onDecrease}>-</button>
-                <mark>{this.state.value}</mark>
-                <button onClick={this.onIncrease}>+</button>
+                <button onClick={onDecrement}>-</button>
+                {/* <mark>{this.state.value}</mark> */}
+                <mark>{value}</mark>
+                <button onClick={onIncrement}>+</button>
             </p>
         );
     }
 
-    //使用static无法使用this
-    static getDerivedStateFromProps(props, state) {
-        if (state.propsSize !== props.totalSize) {
-            return { value: 0, propsSize: props.totalSize }
-        }
-        return null;
-    }
+    // static getDerivedStateFromProps(props, state) {
+    //     if (state.propsSize !== props.totalSize) {
+    //         return { value: 0, propsSize: props.totalSize }
+    //     }
+    //     return null;
+    // }
 }
+
+Counter.propTypes = {
+    value: PropTypes.number.isRequired,
+    onIncrement: PropTypes.func.isRequired,
+    onDecrement: PropTypes.func.isRequired
+  }
 
 export default Counter;
