@@ -1,9 +1,9 @@
 import React from 'react';
 
-class Counter extends React.Component{
+class Counter extends React.Component {
     constructor(props){
         super(props);
-        this.state={value:0};
+        this.state={value:0,propsSize:0};
     }
 
     onIncrease= () =>{
@@ -24,6 +24,14 @@ class Counter extends React.Component{
                 <button onClick={this.onIncrease}>+</button>
             </p>
         );
+    }
+
+    //使用static无法使用this
+    static getDerivedStateFromProps(props, state){
+        if(state.propsSize!==props.totalSize){
+            return {value:0,propsSize:props.totalSize}
+        }
+        return null;
     }
 }
 
